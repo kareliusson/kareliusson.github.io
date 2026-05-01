@@ -37,14 +37,11 @@
 
     .eyebrow {
       color: var(--dl-accent);
-      font-size: 0.78rem;
+      font-size: 1.3rem;
       font-weight: 700;
       letter-spacing: 0.22em;
       text-transform: uppercase;
     }
-	.eyebrow.is-large {
-	  font-size: 1.3rem;
-	}
 
     .dl-button {
       background: linear-gradient(135deg, #d39a6f, var(--dl-accent-dark));
@@ -103,28 +100,11 @@
       padding-bottom: 4rem;
     }
 
-    .hero-logo-wrap {
-      position: absolute;
-      top: 2.5rem;
-      left: 2.5rem;
-      z-index: 3;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-    }
-
-    .hero-logo {
-      width: 140px;
+    .logo {
+      display: block;
+      width: 118px;
       height: auto;
-    }
-
-    .logo-text {
-      margin-top: 0.7rem;
-      font-size: 0.9rem;
-      letter-spacing: 0.35em;
-      text-transform: uppercase;
-      color: rgba(255, 255, 255, 0.9);
-      font-weight: 500;
+      margin-bottom: 4.25rem;
     }
 
     .hero-title {
@@ -358,14 +338,6 @@
         padding-bottom: 5rem;
       }
 
-      .hero-logo {
-        width: 110px;
-      }
-
-      .logo-text {
-        font-size: 0.8rem;
-      }
-
       .logo {
         margin-bottom: 3rem;
         width: 95px;
@@ -412,13 +384,11 @@
       </picture>
       <div class="hero-overlay"></div>
 
-      <div class="hero-logo-wrap">
-        <img class="hero-logo" src="logo.svg" alt="DL Studio" />
-        <div class="logo-text">DL STUDIO</div>
-      </div>
-
       <div class="container hero-content px-5">
-        <p class="eyebrow is-large mb-4">Hudvård med resultat</p>
+        <!-- BYT HÄR: logga. Använd gärna en transparent PNG/SVG -->
+        <img class="logo" src="logo.svg" alt="DL Studio" />
+
+        <p class="eyebrow mb-4">Hudvård med resultat</p>
 
         <h1 class="hero-title serif">
           Din hud blir inte bättre<br />
@@ -444,7 +414,7 @@
     <!-- PROBLEM -->
     <section class="section-clean section-soft">
       <div class="container max-narrow has-text-centered">
-        <p class="eyebrow is-large">Känner du igen dig?</p>
+        <p class="eyebrow">Känner du igen dig?</p>
 
         <div class="columns is-variable is-0 problem-row">
           <div class="column problem-item">
@@ -470,7 +440,7 @@
     <!-- PROCESS -->
     <section class="section-clean">
       <div class="container max-narrow has-text-centered">
-        <p class="eyebrow is-large">Så här funkar det</p>
+        <p class="eyebrow">Så här funkar det</p>
 
         <div class="columns steps is-variable is-8">
           <div class="column step">
