@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DL Studio — Hudanalys & resultat</title>
+
+  <!-- Bulma -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css" />
+
+  <!-- Fonts: byt gärna senare om du vill matcha loggan ännu bättre -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --dl-dark: #26221f;
+      --dl-text: #2d2926;
+      --dl-muted: #6f6660;
+      --dl-cream: #f8f3ef;
+      --dl-soft: #efe5dd;
+      --dl-accent: #c98252;
+      --dl-accent-dark: #b77246;
+      --dl-border: rgba(38, 34, 31, 0.12);
+    }
+
+    body {
+      background: #fff;
+      color: var(--dl-text);
+      font-family: "Inter", sans-serif;
+    }
+
+    .serif {
+      font-family: "Playfair Display", serif;
+    }
+
+    .eyebrow {
+      color: var(--dl-accent);
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+    }
+	.eyebrow.is-large {
+	  font-size: 1.3rem;
+	}
+
+    .dl-button {
+      background: linear-gradient(135deg, #d39a6f, var(--dl-accent-dark));
+      border: 0;
+      border-radius: 6px;
+      color: #fff;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      padding: 1.25rem 2.2rem;
+      text-transform: uppercase;
+      transition: transform 160ms ease, box-shadow 160ms ease;
+    }
+
+    .dl-button:hover {
+      color: #fff;
+      transform: translateY(-1px);
+      box-shadow: 0 14px 30px rgba(183, 114, 70, 0.25);
+    }
+
+    /* HERO */
+    .hero-dl {
+      min-height: 760px;
+      position: relative;
+      overflow: hidden;
+      background: var(--dl-dark);
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+    }
+
+    .hero-bg img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center right;
+      display: block;
+    }
+
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      background:
+        linear-gradient(90deg, rgba(30, 25, 21, 0.88) 0%, rgba(30, 25, 21, 0.72) 38%, rgba(30, 25, 21, 0.28) 72%, rgba(30, 25, 21, 0.12) 100%),
+        linear-gradient(180deg, rgba(30, 25, 21, 0.10), rgba(30, 25, 21, 0.18));
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      padding-top: 3.2rem;
+      padding-bottom: 4rem;
+    }
+
+    .hero-logo-wrap {
+      position: absolute;
+      top: 2.5rem;
+      left: 2.5rem;
+      z-index: 3;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .hero-logo {
+      width: 140px;
+      height: auto;
+    }
+
+    .logo-text {
+      margin-top: 0.7rem;
+      font-size: 0.9rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.9);
+      font-weight: 500;
+    }
+
+    .hero-title {
+      color: #fff;
+      font-size: clamp(3rem, 6vw, 5.8rem);
+      line-height: 1.04;
+      letter-spacing: -0.04em;
+      max-width: 760px;
+    }
+
+    .hero-title .accent {
+      color: #d89663;
+    }
+
+    .hero-text {
+      color: rgba(255, 255, 255, 0.86);
+      font-size: 1.08rem;
+      line-height: 1.85;
+      margin-top: 1.5rem;
+      max-width: 540px;
+    }
+
+    .hero-note {
+      align-items: center;
+      color: rgba(255, 255, 255, 0.82);
+      display: flex;
+      font-size: 0.86rem;
+      gap: 0.55rem;
+      margin-top: 1.4rem;
+    }
+
+    .check-dot {
+      align-items: center;
+      border: 1px solid var(--dl-accent);
+      border-radius: 999px;
+      color: var(--dl-accent);
+      display: inline-flex;
+      font-size: 0.75rem;
+      height: 18px;
+      justify-content: center;
+      width: 18px;
+    }
+
+    /* SECTIONS */
+    .section-clean {
+      padding: 4.5rem 1.5rem;
+    }
+
+    .section-soft {
+      background: linear-gradient(180deg, #fff, var(--dl-cream));
+    }
+
+    .max-narrow {
+      margin-inline: auto;
+      max-width: 980px;
+    }
+
+    .problem-row {
+      border-top: 1px solid var(--dl-border);
+      margin-top: 2.2rem;
+      padding-top: 2.2rem;
+    }
+
+    .problem-item {
+      min-height: 130px;
+      padding: 0 1.8rem;
+      text-align: center;
+    }
+
+    .problem-item:not(:last-child) {
+      border-right: 1px solid var(--dl-border);
+    }
+
+    .problem-icon {
+      color: var(--dl-accent);
+      font-size: 2rem;
+      line-height: 1;
+      margin-bottom: 1rem;
+    }
+
+    .problem-text {
+      color: var(--dl-text);
+      font-size: 0.98rem;
+      line-height: 1.65;
+    }
+
+    .steps {
+      margin-top: 2.6rem;
+    }
+
+    .step {
+      padding: 0 2rem;
+      text-align: center;
+    }
+
+    .step-number {
+      color: var(--dl-accent);
+      font-family: "Playfair Display", serif;
+      font-size: 3.2rem;
+      line-height: 1;
+      margin-bottom: 1rem;
+    }
+
+    .step h3 {
+      color: var(--dl-text);
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .step p {
+      color: var(--dl-muted);
+      font-size: 0.94rem;
+      line-height: 1.65;
+      margin-inline: auto;
+      max-width: 220px;
+    }
+
+    .results-section {
+      background: #fff;
+    }
+
+    .section-title {
+      font-size: clamp(2.25rem, 4vw, 3.3rem);
+      line-height: 1.08;
+      letter-spacing: -0.035em;
+    }
+
+    .before-after {
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .result-image {
+      aspect-ratio: 1 / 1;
+      border-radius: 10px;
+      overflow: hidden;
+      position: relative;
+      background: var(--dl-soft);
+    }
+
+    .result-image img {
+      height: 100%;
+      object-fit: cover;
+      width: 100%;
+    }
+
+    .result-label {
+      bottom: 0.9rem;
+      color: #fff;
+      font-size: 0.78rem;
+      font-weight: 800;
+      left: 0.9rem;
+      letter-spacing: 0.12em;
+      position: absolute;
+      text-transform: uppercase;
+    }
+
+    .quote {
+      color: var(--dl-text);
+      font-size: 1rem;
+      line-height: 1.75;
+      max-width: 300px;
+    }
+
+    .quote-mark {
+      color: var(--dl-accent);
+      font-family: "Playfair Display", serif;
+      font-size: 4rem;
+      line-height: 0.7;
+      margin-bottom: 1rem;
+    }
+
+    .cta-band {
+      background: linear-gradient(180deg, var(--dl-cream), #f3e6dc);
+      padding: 3.8rem 1.5rem;
+      text-align: center;
+    }
+
+    .cta-band h2 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      line-height: 1.15;
+      margin-bottom: 1.6rem;
+    }
+
+    .trust-row {
+      padding: 2rem 1.5rem;
+    }
+
+    .trust-item {
+      align-items: flex-start;
+      display: flex;
+      gap: 1rem;
+    }
+
+    .trust-icon {
+      color: var(--dl-accent);
+      font-size: 1.8rem;
+      line-height: 1;
+      min-width: 34px;
+    }
+
+    .trust-item strong {
+      display: block;
+      font-size: 0.95rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .trust-item span {
+      color: var(--dl-muted);
+      font-size: 0.85rem;
+      line-height: 1.5;
+    }
+
+    @media screen and (max-width: 768px) {
+      .hero-dl {
+        min-height: auto;
+      }
+
+      .hero-bg img {
+        object-position: center;
+      }
+
+      .hero-overlay {
+        background: rgba(30, 25, 21, 0.78);
+      }
+
+      .hero-content {
+        padding-top: 2rem;
+        padding-bottom: 5rem;
+      }
+
+      .hero-logo {
+        width: 110px;
+      }
+
+      .logo-text {
+        font-size: 0.8rem;
+      }
+
+      .logo {
+        margin-bottom: 3rem;
+        width: 95px;
+      }
+
+      .problem-item,
+      .problem-item:not(:last-child) {
+        border-right: 0;
+        border-bottom: 1px solid var(--dl-border);
+        padding: 1.5rem 0;
+      }
+
+      .problem-item:last-child {
+        border-bottom: 0;
+      }
+
+      .step {
+        padding: 1.4rem 0;
+      }
+
+      .before-after {
+        margin-top: 2rem;
+      }
+
+      .quote {
+        margin-top: 2rem;
+        max-width: none;
+      }
+
+      .trust-item {
+        margin-bottom: 1.7rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main>
+    <!-- HERO -->
+    <section class="hero-dl">
+      <!-- BYT HÄR: hero-bild/lokalbild. Bilden täcker hela hero-sektionen. -->
+      <picture class="hero-bg">
+        <img src="hero-lokal.png" alt="Stilren hudvårdssalong" />
+      </picture>
+      <div class="hero-overlay"></div>
+
+      <div class="hero-logo-wrap">
+        <img class="hero-logo" src="logo.svg" alt="DL Studio" />
+        <div class="logo-text">DL STUDIO</div>
+      </div>
+
+      <div class="container hero-content px-5">
+        <p class="eyebrow is-large mb-4">Hudvård med resultat</p>
+
+        <h1 class="hero-title serif">
+          Din hud blir inte bättre<br />
+          av fler produkter.<br />
+          <span class="accent">Den blir bättre av rätt plan.</span>
+        </h1>
+
+        <p class="hero-text">
+          Vi hittar orsaken till dina hudproblem och skapar en personlig plan
+          som ger synliga resultat — på riktigt.
+        </p>
+
+        <!-- BYT HÄR: länka till Bokadirekt -->
+        <a href="#" class="button dl-button mt-5">Boka hudanalys</a>
+
+        <p class="hero-note">
+          <span class="check-dot">✓</span>
+          Kostnadsfri hudanalys. Få svar – bestäm sen.
+        </p>
+      </div>
+    </section>
+
+    <!-- PROBLEM -->
+    <section class="section-clean section-soft">
+      <div class="container max-narrow has-text-centered">
+        <p class="eyebrow is-large">Känner du igen dig?</p>
+
+        <div class="columns is-variable is-0 problem-row">
+          <div class="column problem-item">
+            <div class="problem-icon">◌</div>
+            <p class="problem-text">Akne, orenheter<br />eller tilltäppta porer</p>
+          </div>
+          <div class="column problem-item">
+            <div class="problem-icon">♧</div>
+            <p class="problem-text">Känslig hud som<br />blir röd och irriterad</p>
+          </div>
+          <div class="column problem-item">
+            <div class="problem-icon">◎</div>
+            <p class="problem-text">Ojämn hudton<br />och textur</p>
+          </div>
+          <div class="column problem-item">
+            <div class="problem-icon">✦</div>
+            <p class="problem-text">Du testar produkter<br />men inget hjälper</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROCESS -->
+    <section class="section-clean">
+      <div class="container max-narrow has-text-centered">
+        <p class="eyebrow is-large">Så här funkar det</p>
+
+        <div class="columns steps is-variable is-8">
+          <div class="column step">
+            <div class="step-number">1</div>
+            <h3>Hudanalys</h3>
+            <p>Vi analyserar din hud på djupet.</p>
+          </div>
+          <div class="column step">
+            <div class="step-number">2</div>
+            <h3>Personlig plan</h3>
+            <p>En skräddarsydd plan för din hud och dina mål.</p>
+          </div>
+          <div class="column step">
+            <div class="step-number">3</div>
+            <h3>Behandling & uppföljning</h3>
+            <p>Vi behandlar, följer upp och justerar för bästa resultat.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RESULTAT -->
+    <section class="section-clean results-section">
+      <div class="container">
+        <div class="columns is-vcentered is-variable is-8">
+          <div class="column is-3">
+            <p class="eyebrow mb-4">Resultat som syns</p>
+            <h2 class="section-title serif">Verkliga resultat.<br />Verkliga kunder.</h2>
+          </div>
+
+          <div class="column is-5">
+            <div class="before-after">
+              <div class="result-image">
+                <!-- BYT HÄR: före-bild -->
+                <img src="before.png" alt="Före hudbehandling" />
+                <span class="result-label">Före</span>
+              </div>
+              <div class="result-image">
+                <!-- BYT HÄR: efter-bild -->
+                <img src="after.png" alt="Efter hudbehandling" />
+                <span class="result-label">Efter</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="column is-4">
+            <div class="quote-mark">“</div>
+            <p class="quote">
+              Äntligen någon som förstår min hud! Efter några veckor är min akne
+              så mycket bättre och huden känns lugnare.
+              <br /><br />– Emma
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-band">
+      <div class="container">
+        <h2 class="serif">Ta första steget mot en hud du älskar.</h2>
+
+        <!-- BYT HÄR: länka till Bokadirekt -->
+        <a href="#" class="button dl-button">Boka hudanalys</a>
+
+        <p class="hero-note is-justify-content-center" style="color: var(--dl-text);">
+          <span class="check-dot">✓</span>
+          Snabbt, enkelt och helt utan förpliktelser.
+        </p>
+      </div>
+    </section>
+
+    <!-- TRUST / FOOTER - kan tas bort om sidan ska vara ännu mer minimal -->
+    <footer class="trust-row">
+      <div class="container">
+        <div class="columns">
+          <div class="column trust-item">
+            <div class="trust-icon">♢</div>
+            <div>
+              <strong>Tryggt & professionellt</strong>
+              <span>Legitimerad personal och säkra behandlingar.</span>
+            </div>
+          </div>
+          <div class="column trust-item">
+            <div class="trust-icon">♡</div>
+            <div>
+              <strong>Skräddarsytt för dig</strong>
+              <span>Individuella planer för din hud.</span>
+            </div>
+          </div>
+          <div class="column trust-item">
+            <div class="trust-icon">▦</div>
+            <div>
+              <strong>Enkel bokning</strong>
+              <span>Boka din hudanalys online när det passar dig.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </main>
+</body>
+</html>
