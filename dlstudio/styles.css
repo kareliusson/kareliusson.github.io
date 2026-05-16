@@ -396,3 +396,15 @@ body {
   color: var(--dl-muted);
   line-height: 1.7;
 }
+
+.minimal-footer {
+  padding: 2rem 1.5rem 3rem;
+  text-align: center;
+}
+
+.minimal-footer p {
+  color: var(--dl-muted);
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
