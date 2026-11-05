@@ -33,3 +33,11 @@
     #flow-title:focus{outline:none}
     @media(max-width:700px){.service-category+.service-category{margin-top:32px}.service-category h2{font-size:23px}.service-row{padding:18px 5px}.service-row-top{gap:12px;grid-template-columns:1fr auto 14px}.service-row-name{font-size:14px}.service-row-price{font-size:12px}.service-row-description{padding-right:18px}.chosen-treatment{align-items:start;flex-direction:column;gap:7px}.chosen-treatment .text-btn{min-height:44px}}
     @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition:none!important}}
+
+/* Leave a little space above the next booking step when scrolling on mobile. */
+@media (max-width: 700px) {
+  #time-title,
+  #contact-form {
+    scroll-margin-top: 24px;
+  }
+}
