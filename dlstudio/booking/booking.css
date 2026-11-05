@@ -41,3 +41,12 @@
     scroll-margin-top: 24px;
   }
 }
+
+/* Vector arrows render consistently across mobile and desktop fonts. */
+.diagonal-arrow {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  vertical-align: middle;
+}

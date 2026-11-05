@@ -68,7 +68,7 @@
           const top=document.createElement('span');top.className='service-row-top';
           const name=document.createElement('span');name.className='service-row-name';name.textContent=service.name;
           const amount=document.createElement('span');amount.className='service-row-price';amount.textContent=price(service.price);
-          const arrow=document.createElement('span');arrow.className='service-row-arrow';arrow.setAttribute('aria-hidden','true');arrow.textContent='↗';
+          const arrow=document.createElement('span');arrow.className='service-row-arrow';arrow.setAttribute('aria-hidden','true');arrow.innerHTML='<svg class="diagonal-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg>';
           top.append(name,amount,arrow);
           const description=document.createElement('span');description.className='service-row-description';description.textContent=service.description;
           const duration=document.createElement('span');duration.className='service-row-duration';duration.textContent=`${service.duration} minuter`;
@@ -131,7 +131,7 @@
     });
     function showConfirmation(booking){
       const service=services.find(s=>s.id===booking.serviceId);$('booking-flow').hidden=true;$('confirmation').hidden=false;
-      $('confirmation').innerHTML='<div class="success-icon" aria-hidden="true">✓</div><div class="eyebrow" style="margin-bottom:12px">Demobokningen är klar</div><h2>Din demobokning<br>är bekräftad.</h2><p>Detta är en simulerad bokning. Inget riktigt besök eller e-post har skapats. Din demotid är nu upptagen under denna sidsession.</p><div class="success-details" id="confirmed-details"></div><button class="btn" id="book-again">Tillbaka till bokningen <span aria-hidden="true">↗</span></button>';
+      $('confirmation').innerHTML='<div class="success-icon" aria-hidden="true">✓</div><div class="eyebrow" style="margin-bottom:12px">Demobokningen är klar</div><h2>Din demobokning<br>är bekräftad.</h2><p>Detta är en simulerad bokning. Inget riktigt besök eller e-post har skapats. Din demotid är nu upptagen under denna sidsession.</p><div class="success-details" id="confirmed-details"></div><button class="btn" id="book-again">Tillbaka till bokningen <svg class="diagonal-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg></button>';
       $('confirmed-details').append(summaryRows(service,booking.date,booking.time));$('book-again').addEventListener('click',()=>{selectedTime='';showBooking();renderAll();$('flow-title').focus();});$('confirmation').focus();renderCancellation('permitted');
     }
     function showBooking(){
