@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="sv">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta
+      name="description"
+      content="Boka hudanalys och personligt anpassad hudvård hos DL Studio. Bokningsprototyp."
+    >
+    <title>Boka din tid — DL Studio</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@500;600&display=swap"
+      rel="stylesheet"
+    >
+    <link rel="stylesheet" href="booking.css">
+  </head>
+  <body>
+    <div class="demo-bar">
+      <span></span>
+      DESIGNFÖRHANDSVISNING · Endast demobokningar. Inga riktiga reservationer.
+    </div>
+    <!-- HEADER: a quiet continuation of the existing clinic website. -->
+    <header>
+      <nav class="nav wrap" aria-label="Navigering">
+        <a class="brand" href="../index.html">
+          DL Studio
+          <small>Hudvård med resultat</small>
+        </a>
+        <a class="back-link" href="../index.html">← Tillbaka till startsidan</a>
+      </nav>
+    </header>
+    <main>
+      <!-- BOOKING CALENDAR AND CONTACT FORM -->
+      <section id="booking" class="section booking-section">
+        <div class="wrap">
+          <div class="section-heading">
+            <div>
+              <div class="eyebrow">Boka hos DL Studio</div>
+              <h1 id="flow-title" tabindex="-1">Välj din behandling.</h1>
+            </div>
+            <p class="muted" id="flow-description">
+              Hitta rätt behandling för din hud.
+              <br>
+              Behandlingstid anges vid varje behandling.
+            </p>
+          </div>
+          <div id="treatment-view">
+            <div class="services" id="service-list"></div>
+            <p class="treatment-note">Priserna för ansiktsbehandling och hudförnyelse är exempel i denna prototyp. Betalning sker på plats.</p>
+          </div>
+          <div class="booking-layout" id="appointment-view" hidden>
+            <div class="booking-card">
+              <div id="booking-flow">
+                <div class="steps" aria-label="Booking steps">
+                  <span class="active">
+                    <b>1</b>
+                    Behandling
+                  </span>
+                  <span id="date-step">
+                    <b>2</b>
+                    Datum & tid
+                  </span>
+                  <span id="details-step">
+                    <b>3</b>
+                    Dina uppgifter
+                  </span>
+                </div>
+                <div class="chosen-treatment">
+                  <div>
+                    <span class="field-label-custom" id="chosen-category-name"></span>
+                    <h3 id="chosen-treatment-name"></h3>
+                  </div>
+                  <button id="change-treatment" class="text-btn" type="button">← Byt behandling</button>
+                </div>
+                <div class="calendar-time">
+                  <div>
+                    <div class="calendar-head">
+                      <span id="month-label"></span>
+                      <div class="month-controls">
+                        <button id="prev-month" type="button" aria-label="Föregående månad">←</button>
+                        <button id="next-month" type="button" aria-label="Nästa månad">→</button>
+                      </div>
+                    </div>
+                    <div class="calendar-grid" id="calendar" role="group" aria-label="Välj datum"></div>
+                    <p class="calendar-note">
+                      Måndag–fredag · 09:00–18:00
+                      <br>
+                      Lördag & söndag · Stängt
+                    </p>
+                  </div>
+                  <div>
+                    <h3 class="time-title" id="time-title">Lediga tider</h3>
+                    <div id="slots" class="slots" role="group" aria-label="Bokningstider"></div>
+                    <div class="legend">
+                      <span>
+                        <i></i>
+                        Ledig
+                      </span>
+                      <span>
+                        <i class="unavailable"></i>
+                        Ej tillgänglig
+                      </span>
+                    </div>
+                    <p id="availability-feedback" class="feedback" role="status"></p>
+                  </div>
+                </div>
+                <form id="contact-form" class="contact-form" hidden novalidate>
+                  <h3>Dina kontaktuppgifter</h3>
+                  <p class="feedback">Använd bara påhittade uppgifter. Demouppgifterna stannar på sidan och skickas eller sparas aldrig.</p>
+                  <div class="form-grid">
+                    <div class="form-field">
+                      <label for="full-name">För- och efternamn</label>
+                      <input
+                        class="control-input"
+                        id="full-name"
+                        name="demo-name"
+                        value="Alex Example"
+                        autocomplete="off"
+                        required
+                        aria-describedby="name-error"
+                      >
+                      <span class="error" id="name-error"></span>
+                    </div>
+                    <div class="form-field">
+                      <label for="email">E-postadress</label>
+                      <input
+                        class="control-input"
+                        id="email"
+                        type="email"
+                        name="demo-email"
+                        value="alex@example.com"
+                        autocomplete="off"
+                        required
+                        aria-describedby="email-error"
+                      >
+                      <span class="error" id="email-error"></span>
+                    </div>
+                    <div class="form-field">
+                      <label for="phone">Telefonnummer</label>
+                      <input
+                        class="control-input"
+                        id="phone"
+                        type="tel"
+                        name="demo-phone"
+                        value="070 000 00 00"
+                        autocomplete="off"
+                        required
+                        aria-describedby="phone-error"
+                      >
+                      <span class="error" id="phone-error"></span>
+                    </div>
+                    <div class="form-field message-field">
+                      <label for="message">
+                        Meddelande
+                        <span class="muted">(valfritt)</span>
+                      </label>
+                      <textarea
+                        class="control-input"
+                        id="message"
+                        name="demo-message"
+                        rows="4"
+                        maxlength="1000"
+                        autocomplete="off"
+                        placeholder="Meddelande"
+                        aria-describedby="message-help message-error"
+                      ></textarea>
+                      <p
+                        class="feedback"
+                        id="message-help"
+                      >Högst 1 000 tecken. Skriv endast en påhittad exempeltext i denna demo.</p>
+                      <span class="error" id="message-error"></span>
+                    </div>
+                  </div>
+                  <div class="confirm-footer">
+                    <p>Detta är en prototyp. Använd endast påhittade kontaktuppgifter.</p>
+                    <button class="btn" type="submit">
+                      Bekräfta demobokning
+                      <span class="arrow" aria-hidden="true">↗</span>
+                    </button>
+                  </div>
+                  <p class="error" id="booking-error" role="alert"></p>
+                </form>
+              </div>
+              <div id="confirmation" class="success" hidden tabindex="-1" aria-live="polite"></div>
+            </div>
+            <aside class="summary-card" aria-label="Bokningsöversikt">
+              <div class="eyebrow" style="margin-bottom:10px">Ditt besök</div>
+              <h3>Din bokning</h3>
+              <div id="summary" aria-live="polite"></div>
+              <div class="policy">
+                <p>Betalning sker på plats på kliniken.</p>
+                <p>Avbokning måste göras minst 24 timmar före ditt besök.</p>
+              </div>
+              <div class="demo-note">Fas 1 · Ingen betalning, riktig bokning eller e-post skapas.</div>
+            </aside>
+          </div>
+        </div>
+      </section>
+      <!-- CANCELLATION PREVIEW: also supports ?cancel=permitted|late|invalid|success -->
+      <section class="cancel-preview wrap">
+        <details id="cancel-demo">
+          <summary>Prototypverktyg · Förhandsvisa avbokning</summary>
+          <div class="cancel-controls" role="group" aria-label="Avbokningslägen">
+            <button class="btn secondary" data-cancel="permitted">Avbokning tillåten</button>
+            <button class="btn secondary" data-cancel="late">Mindre än 24 timmar</button>
+            <button class="btn secondary" data-cancel="invalid">Ogiltig / utgången länk</button>
+            <button class="btn secondary" data-cancel="success">Avbokning genomförd</button>
+          </div>
+          <div id="cancellation" class="cancel-card" aria-live="polite"></div>
+        </details>
+      </section>
+    </main>
+    <!-- FOOTER -->
+    <footer>
+      <div class="wrap footer-inner">
+        <a class="brand" href="../index.html">DL Studio</a>
+        <p>Midsommarvägen 66, Hägersten</p>
+        <p>
+          ©
+          <span id="year"></span>
+          DL Studio · Designprototyp
+        </p>
+      </div>
+    </footer>
+    <script src="services.js"></script>
+    <script src="booking.js"></script>
+  </body>
+</html>
