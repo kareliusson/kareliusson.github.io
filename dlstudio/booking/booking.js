@@ -78,9 +78,8 @@
         });list.append(section);
       });
     }
-    // Guide narrow-screen users to the next step without opening the keyboard.
-    function scrollToMobileStep(id){
-      if(!window.matchMedia('(max-width: 700px)').matches)return;
+    // Guide users to the next step without opening the keyboard.
+    function scrollToBookingStep(id){
       requestAnimationFrame(()=>{
         const target=$(id);
         if(!target || target.hidden)return;
@@ -101,7 +100,7 @@
       for(let day=1;day<=count;day++){
         const d=new Date(displayedMonth.getFullYear(),displayedMonth.getMonth(),day);const key=dateKey(d);
         const button=document.createElement('button');button.type='button';button.className='day'+(key===selectedDate?' chosen':'')+(key===dateKey(today())?' today':'');button.textContent=day;button.disabled=d<today();button.setAttribute('aria-pressed',String(key===selectedDate));button.setAttribute('aria-label',`${formatDate(key,{weekday:'long',day:'numeric',month:'long',year:'numeric'})}${!BUSINESS_HOURS.days.includes(d.getDay())?', kliniken stängd':''}`);
-        button.addEventListener('click',()=>{selectedDate=key;selectedTime='';renderCalendar();renderAvailability();renderSummary();scrollToMobileStep('time-title');});$('calendar').append(button);
+        button.addEventListener('click',()=>{selectedDate=key;selectedTime='';renderCalendar();renderAvailability();renderSummary();scrollToBookingStep('time-title');});$('calendar').append(button);
       }
       const firstThisMonth=today();firstThisMonth.setDate(1);$('prev-month').disabled=displayedMonth<=firstThisMonth;
     }
@@ -109,7 +108,7 @@
       $('slots').replaceChildren();$('time-title').textContent=formatDate(selectedDate,{weekday:'short',day:'numeric',month:'long'});
       const slots=getAvailableSlots(selectedDate);
       if(!slots.some(slot=>slot.time===selectedTime&&slot.available))selectedTime='';
-      slots.forEach(slot=>{const button=document.createElement('button');button.type='button';button.className='slot'+(selectedTime===slot.time?' chosen':'');button.disabled=!slot.available||!currentService();button.setAttribute('aria-pressed',String(selectedTime===slot.time));button.setAttribute('aria-label',`${slot.time}, ${slot.reason}`);button.innerHTML=`${slot.time}<small>${slot.reason}</small>`;button.addEventListener('click',()=>{selectedTime=slot.time;renderAvailability();renderSummary();scrollToMobileStep('contact-form');});$('slots').append(button);});
+      slots.forEach(slot=>{const button=document.createElement('button');button.type='button';button.className='slot'+(selectedTime===slot.time?' chosen':'');button.disabled=!slot.available||!currentService();button.setAttribute('aria-pressed',String(selectedTime===slot.time));const status=selectedTime===slot.time?'Vald tid':slot.reason;button.setAttribute('aria-label',`${slot.time}, ${status}`);button.innerHTML=`${slot.time}<small>${status}</small>`;button.addEventListener('click',()=>{selectedTime=slot.time;renderAvailability();renderSummary();scrollToBookingStep('contact-form');});$('slots').append(button);});
       $('availability-feedback').textContent=!services.length?'Bokningen öppnar när behandlingar har lagts till.':!slots.length?'Kliniken är stängd på helger. Välj en vardag.':!slots.some(s=>s.available)?'Inga lediga tider detta datum. Välj en annan dag.':`${currentService()?.duration ?? APPOINTMENT_DURATION} min behandling · Tider visas i enhetens lokala tidszon.`;
       $('contact-form').hidden=!selectedTime||!currentService();$('date-step').classList.toggle('active',!!selectedDate);$('details-step').classList.toggle('active',!!selectedTime);
     }

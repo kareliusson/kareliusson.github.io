@@ -34,12 +34,10 @@
     @media(max-width:700px){.service-category+.service-category{margin-top:32px}.service-category h2{font-size:23px}.service-row{padding:18px 5px}.service-row-top{gap:12px;grid-template-columns:1fr auto 14px}.service-row-name{font-size:14px}.service-row-price{font-size:12px}.service-row-description{padding-right:18px}.chosen-treatment{align-items:start;flex-direction:column;gap:7px}.chosen-treatment .text-btn{min-height:44px}}
     @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition:none!important}}
 
-/* Leave a little space above the next booking step when scrolling on mobile. */
-@media (max-width: 700px) {
-  #time-title,
-  #contact-form {
-    scroll-margin-top: 24px;
-  }
+/* Leave a little space above the next booking step when scrolling. */
+#time-title,
+#contact-form {
+  scroll-margin-top: 24px;
 }
 
 /* Vector arrows render consistently across mobile and desktop fonts. */
@@ -49,4 +47,57 @@
   height: 18px;
   flex-shrink: 0;
   vertical-align: middle;
+}
+
+/* Readable selection feedback and distinct appointment states. */
+.chosen-treatment {
+  background: var(--paper);
+  border-left: 3px solid var(--olive);
+  border-radius: 6px;
+  padding: 16px 18px;
+}
+.chosen-treatment .field-label-custom {
+  font-size: 12px;
+  color: var(--ink);
+}
+.chosen-treatment h3 {
+  font-size: 26px;
+}
+.time-title {
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+.slot {
+  min-height: 60px;
+  font-size: 14px;
+  font-weight: 500;
+}
+.slot small {
+  font-size: 10px;
+  font-weight: 400;
+  margin-top: 3px;
+}
+.slot:disabled {
+  background: #f0efec;
+  border-color: #e3e0db;
+  color: #746e68;
+  text-decoration: none;
+}
+.slot.chosen,
+.slot.chosen:hover:enabled {
+  background: #85502e;
+  border-color: #85502e;
+  color: #fff;
+  box-shadow: 0 0 0 2px #fff, 0 0 0 3px #85502e;
+}
+.slot.chosen small::before {
+  content: '';
+  display: inline-block;
+  width: 8px;
+  height: 5px;
+  margin-right: 5px;
+  border-left: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: translateY(-2px) rotate(-45deg);
 }
